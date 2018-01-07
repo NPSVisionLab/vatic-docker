@@ -37,15 +37,6 @@ RUN sudo cp /etc/apache2/mods-available/headers.load /etc/apache2/mods-enabled &
 
 COPY config/config.py /root/vatic/config.py
 
-# We need to adjust some of these guys's import statements...
-RUN sed  -i'' "s/import Image/from PIL import Image/" \
-    /usr/local/lib/python2.7/dist-packages/pyvision-0.3.1-py2.7-linux-x86_64.egg/vision/frameiterators.py \
-    /usr/local/lib/python2.7/dist-packages/pyvision-0.3.1-py2.7-linux-x86_64.egg/vision/ffmpeg.py \
-    /usr/local/lib/python2.7/dist-packages/pyvision-0.3.1-py2.7-linux-x86_64.egg/vision/visualize.py \
-    /root/vatic/models.py \
-    /root/vatic/cli.py \
-    /usr/local/lib/python2.7/dist-packages/pyvision-0.3.1-py2.7-linux-x86_64.egg/vision/pascal.py
-
 RUN sudo /etc/init.d/mysql start && \
     cd /root/vatic && \
     mysql -u root --execute="CREATE DATABASE vatic;" && \
